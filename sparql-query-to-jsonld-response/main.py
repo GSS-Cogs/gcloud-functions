@@ -1,7 +1,6 @@
 import logging
 from urllib import parse
 
-from requests import Response
 from SPARQLWrapper import SPARQLWrapper, RDFXML
 from SPARQLWrapper.Wrapper import QueryResult
 
@@ -21,7 +20,6 @@ def handler(request):
     results: QueryResult = sparql.query().convert()
 
     context = {"@vocab": "http://purl.org/dc/terms/", "@language": "en"}
-    resp = Response(results.serialize(format='json-ld', context=context, indent=4))
 
     headers = {'Content-Type': 'application/ld+json'}
-    return resp, 200, headers
+    return results.serialize(format='json-ld', context=context, indent=4), 200, headers
